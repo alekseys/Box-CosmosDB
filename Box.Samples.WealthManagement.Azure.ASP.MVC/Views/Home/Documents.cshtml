@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Documents";
+}
+
+<h2>Documents</h2>
+
+<div class="item" style="height:600px"></div>
+<!-- Latest version of the explorer js for your locale -->
+<script src="https://cdn01.boxcdn.net/platform/elements/6.0.0/en-US/explorer.js"></script>
+<script>
+    var folderId = '0';
+    var accessToken = '@ViewData["Token"]';
+    var contentExplorer = new Box.ContentExplorer();
+    window.item = contentExplorer;
+    item.addListener('upload', function (data) {
+        $.post("/Home/AddFiles", { files: JSON.stringify(data) });
+    });
+
+    contentExplorer.show(folderId, accessToken, {
+        container: '.item',
+        logoUrl: 'https://d30y9cdsu7xlg0.cloudfront.net/png/12458-200.png',
+        autoFocus: true,
+        contentPreviewProps: {
+            contentSidebarProps: {
+                hasActivityFeed: true,
+                hasProperties: true,
+                hasSkills: true
+            }
+        }
+    });
+</script>
